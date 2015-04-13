@@ -1,0 +1,495 @@
+<HTML>
+
+
+<HEAD>
+
+
+<title>Drop Ceiling Calculator</title>
+
+<script language="JavaScript">
+
+
+
+
+function perRound(num, precision) {
+
+        var precision = 3; //default value if not passed from caller, change if desired
+
+        // remark if passed from caller
+
+        precision = parseInt(precision); // make certain the decimal precision is an integer
+
+    var result1 = num * Math.pow(10, precision);
+
+    var result2 = Math.round(result1);
+
+    var result3 = result2 / Math.pow(10, precision);
+
+    return zerosPad(result3, precision);
+
+}
+
+
+
+function zerosPad(rndVal, decPlaces) {
+
+    var valStrg = rndVal.toString(); 
+    var decLoc = valStrg.indexOf("."); 
+    // check for a decimal 
+
+    if (decLoc == -1) {
+
+        decPartLen = 0; // If no decimal, then all decimal places will be padded with 0s
+
+        
+        valStrg += decPlaces > 0 ? "." : "";
+
+    }
+
+    else {
+
+        decPartLen = valStrg.length - decLoc - 1; // If there is a decimal already, only the needed decimal places will be padded with 0s
+
+    }
+
+     var totalPad = decPlaces - decPartLen;    
+    if (totalPad > 0) {
+
+        
+        for (var cntrVal = 1; cntrVal <= totalPad; cntrVal++) 
+
+            valStrg += "0";
+
+        }
+
+    return valStrg;
+
+}
+
+
+
+
+
+function clear_field(field) {
+
+                if (field.value==field.defaultValue) {
+
+                        field.value=''
+
+                }
+
+        }
+
+
+
+function gridcalc (form) {
+
+var tsf= eval(form.tsf.value); //square footage
+
+var wlf= eval(form.wlf.value); //wall linear total footage at ceiling
+
+var rwf= eval(form.rwf.value); //wall width at ceiling
+
+var rlf= eval(form.rlf.value); //wall length at ceiling
+
+var sd= eval(form.sd.value); //wire tie length at ceiling, not including loop and tie distance at each end
+
+form.tsf.value = (rwf) * (rlf);
+
+form.wlf.value = (rwf * 2) + (rlf * 2);
+
+var tsf= eval(form.tsf.value);
+
+var wlf= eval(form.wlf.value);
+
+var mr= eval((rlf / 12) * ((rwf / 2) - 2)); // main section pieces @12 feet each
+
+var mw= eval(wlf / 12); // wall support moldings
+
+var wt= eval(mr * 4); // wire tie pieces for support
+
+var ach= (wt); // wire tie anchors for support
+
+var wtl= ((wt * (sd + 18)) / 12); // wire tie support approximate length total in feet
+
+var iwtl= (sd + 18); // individual wire tie length in inches
+
+
+
+form.mr.value = Math.ceil(mr);
+
+form.t4.value = Math.ceil((mr * 3) - 1);
+
+form.t2.value = Math.ceil((mr * 6) - 1);
+
+form.t4f.value = Math.ceil(tsf / 8);
+
+form.t2f.value = Math.ceil(tsf / 4);
+
+form.mw.value = Math.ceil(mw);
+
+form.wt.value = Math.ceil(wt);
+
+form.wtl.value = Math.ceil(wtl);
+
+form.iwtl.value = Math.ceil(iwtl);
+
+form.ach.value = Math.ceil(ach);
+
+}
+
+
+
+
+
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+
+<font face="Arial,Helvetica,Geneva,Swiss,SunSans-Regular">
+
+<BODY BGCOLOR="#000000" TEXT=#FFFFFF LINK=0000FF VLINK=800080>
+<tr> 
+  <td colspan="3"> 
+    <div align="left"></div>
+</td></tr>
+<TABLE ALIGN="left" BORDER=0 width="550" CELLPADDING=0>
+
+<TR BGCOLOR=#000000>
+
+<!--ROW 1-->
+
+    <TD WIDTH=80%>
+<TABLE ALIGN="left" BORDER=0 CELLPADDING=0>
+
+<TR BGCOLOR=#000000>
+
+<!--ROW 1-->
+
+<TD WIDTH=80%>
+
+<FORM name="dcc">
+
+
+
+<TABLE ALIGN="left" BORDER=0 CELLPADDING=0>
+
+<TR BGCOLOR=#000000>
+
+              <td valign="top">&nbsp; </td>
+<!--ROW 1-->
+
+<TD WIDTH=80%>
+
+
+<TABLE ALIGN="left" BORDER=0 CELLPADDING=0>
+
+<TR BGCOLOR=#000000>
+
+<!--ROW 1-->
+
+<td>
+
+<center>Designation</center>
+
+</td>
+
+<td>
+
+<center>Number</center>
+
+</td>
+
+</tr>
+
+<TR BGCOLOR=#000000>
+
+<TD align="center" colspan="2">
+
+Required Data Entry
+
+</td>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Room Width
+
+</td>
+
+<td> 
+
+<INPUT name="rwf" size="18" value="10" onFocus="clear_field(this)"> Feet
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Room Length
+
+</td>
+
+<td> 
+
+<INPUT name="rlf" size="18" value="12" onFocus="clear_field(this)"> Feet
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Distance From Anchor To Ceiling Support
+
+</td>
+
+<td> 
+
+<INPUT name="sd" size="18" value="12" onFocus="clear_field(this)"> Inches
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td align="center" colspan="2" BGCOLOR=#000000>
+
+<INPUT onClick="gridcalc(this.form)" type="button" value="Calculate">
+
+&nbsp;&nbsp;&nbsp; 
+
+<input type="reset" value="Clear Values" name="Clear">
+<br>
+                    </td> 
+
+</tr>
+
+<TR BGCOLOR=#000000>
+
+<TD align="center" colspan="2">
+
+Calculated Results
+
+</td>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Room Area
+
+</td>
+
+<td> 
+
+<INPUT name="tsf" size="18" value="0" readonly> Square Feet
+
+</td> 
+
+<tr> 
+
+<td>
+
+Room Linear Wall Footage 
+
+</td>
+
+<td> 
+
+<INPUT name="wlf" size="18" value="0" onFocus="clear_field(this)"> Feet
+
+</td> 
+
+</tr>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 12 Foot Main Support Sections
+
+</td>
+
+<td> 
+
+<INPUT name="mr" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 4 Foot Tee Support Pieces
+
+</td>
+
+<td> 
+
+<INPUT name="t4" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 2 Foot Tee Support Pieces
+
+</td>
+
+<td> 
+
+<INPUT name="t2" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 4 x 2 Foot Ceiling Tiles
+
+</td>
+
+<td> 
+
+<INPUT name="t4f" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 2 x 2 Foot Ceiling Tiles
+
+</td>
+
+<td> 
+
+<INPUT name="t2f" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity 12 Foot Support Wall Molding
+
+</td>
+
+<td> 
+
+<INPUT name="mw" size="18" value="0" readonly>
+
+</td> 
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity Ceiling Support Wire Ties</td>
+
+<td> 
+
+<INPUT name="wt" size="18" value="0" readonly>
+
+</td>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Individual Support Wire Tie Length</td>
+
+<td> 
+
+<INPUT name="iwtl" size="18" value="0" readonly> Inches
+
+</td>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Total Support Wire Length
+
+</td>
+
+<td> 
+
+<INPUT name="wtl" size="18" value="0" readonly> Feet
+
+</td>
+
+</tr>
+
+<tr> 
+
+<td>
+
+Quantity Support Wire Tie Anchors
+
+</td>
+
+<td> 
+
+<INPUT name="ach" size="18" value="0" readonly>
+
+</td>
+
+</tr>
+
+</table>
+
+</form>
+
+</td>
+
+</tr>
+
+</table>
+
+    </td>
+
+</tr>
+
+</table>
+
+<p>&nbsp; 
+</BODY> 
+
+</HTML>
